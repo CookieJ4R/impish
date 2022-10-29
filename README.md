@@ -1,2 +1,2 @@
-# impish - Interprocess Message Passing Is Simple enougH
+# impish - **i**nterprocess **m**essage **p**assing **i**s **s**imple enoug**h**
 
