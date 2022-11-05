@@ -101,6 +101,8 @@ class ImpishBroker:
             data = json.loads(msg)
             if data['msg_type'] == MessageType.SUBSCRIBE_MESSAGE:
                 self._add_client_to_channel(data['channel'], client)
+            elif data['msg_type'] == MessageType.UNSUBSCRIBE_MESSAGE:
+                self._remove_client_from_channel(data['channel'], client)
             elif data['msg_type'] == MessageType.DATA_MESSAGE:
                 self._forward_message_to_clients(client, data)
         except JSONDecodeError:
@@ -118,6 +120,16 @@ class ImpishBroker:
         else:
             self._channel_client_map[channel] = [client]
 
+    def _remove_client_from_channel(self, channel: str, client: socket.socket):
+        """
+        Internal method that removes a client from a specified channel.
+
+        :param str channel: The channel to remove the client from.
+        :param socket.socket client: The client to remove from the channel.
+        """
+        if channel in self._channel_client_map:
+            self._channel_client_map[channel].remove(client)
+
     def _forward_message_to_clients(self, src_client: socket.socket, msg: Dict):
         """
         Internal method that forwards a message to all clients subscribed to the channel over which the message was
@@ -134,4 +146,4 @@ class ImpishBroker:
                 if msg['exclude_self'] and src_client == client:
                     continue
                 if not socket_util.send_data(client, json.dumps(msg).encode('utf-8')):
-                    self._channel_client_map[channel].remoce(client)
+                    self._channel_client_map[channel].remove(client)

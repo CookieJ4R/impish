@@ -77,6 +77,17 @@ class ImpishClient:
         socket_util.send_data(self._sock, data_to_send)
         self._register_message_received_callback(channel, callback)
 
+    def unsubscribe(self, channel: str):
+        """
+        Unsubscribe from a specified channel.
+
+        :param str channel: Name of the channel to unsubscribe from
+        """
+        channel_unsubscribe_data = {'msg_type': MessageType.UNSUBSCRIBE_MESSAGE, 'channel': channel}
+        data_to_send = json.dumps(channel_unsubscribe_data).encode('utf-8')
+        socket_util.send_data(self._sock, data_to_send)
+        self._unregister_message_received_callbacks(channel)
+
     def _register_message_received_callback(self, channel: str, callback: Callable):
         """
         Internal method to map a callback to a specified channel.
@@ -88,6 +99,15 @@ class ImpishClient:
             self._callback_map[channel].append(callback)
         else:
             self._callback_map[channel] = [callback]
+
+    def _unregister_message_received_callbacks(self, channel: str):
+        """
+        Internal method to remove all registered callbacks from a specified channel.
+
+        :param str channel: The channel to remove the callbacks from
+        """
+        if channel in self._callback_map:
+            self._callback_map[channel] = []
 
     def _on_message_received(self, msg: bytes):
         """

@@ -6,4 +6,5 @@ class MessageType(IntEnum):
     This enum represents the different message types.
     """
     SUBSCRIBE_MESSAGE = auto()
+    UNSUBSCRIBE_MESSAGE = auto()
     DATA_MESSAGE = auto()
