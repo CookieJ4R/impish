@@ -11,3 +11,6 @@ You can however also use an INET socket on Unix if you wish. Using a Inet socket
 
 To learn how to use impish have a look at the provided examples [here](/examples).
 
+## Tests
+
+Complete tests will (probably) be provided in a later release.
