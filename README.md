@@ -1,6 +1,6 @@
 # impish - Interprocess communication made easy!
 
-  pip install impish
+    pip install impish
 
 impish (**i**nterprocess **m**essage **p**assing **i**s **s**imple enoug**h**) is a library to simplify interprocess communication. Inspired by MQTT it comes with two classes:
 - ImpishBroker
